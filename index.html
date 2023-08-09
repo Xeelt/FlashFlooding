@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
     <style>
         #map{
-            height: 90vh;
+            height: 94vh;
             width: 100%;
         }
 
@@ -28,12 +28,12 @@
 }
 .info h4 {
     margin: 0 0 5px;
-    color: #777;
+    color: #000000;
 }
 
 .legend {
     line-height: 18px;
-    color: #555;
+    color: #000000;
 }
 .legend i {
     width: 18px;
@@ -42,13 +42,18 @@
     margin-right: 8px;
     opacity: 0.7;
 }
+ 
+ #logo {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            left: 15px;
+            max-height: 50px; /* Tamaño ajustable */
+        }
 
-
-
-/* Estilos para el encabezado */
 h1 {
             position: relative;
-            color: rgb(238, 149, 16);
+            color: rgb(233, 185, 55);
             font-family: Arial;
             text-align: center;
             background-color: black;
@@ -77,6 +82,7 @@ h1 {
     </style>
 </head>
 <h1>
+    <img src="https://www.studywv.org/wp-content/uploads/2015/10/WVSU.png" alt="Logo de Mi Universidad" id="logo">
     <div class="title">Flash Flooding Hazard Zones for Charleston, West Virginia</div>
     <div class="buttons">
         <a href="data\FAQ6.html">-Documentation-</a>
@@ -107,7 +113,7 @@ h1 {
 <script>
 
 
-    var map = L.map('map').setView([38.43804,-81.88454], 12);
+    var map = L.map('map').setView([38.4105,-81.5767], 11.5);
 var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 });
@@ -304,9 +310,6 @@ info.update = function (props) {
 
 info.addTo(map);
 
-
-
-
 var legend = L.control({position: 'bottomright'});
 
 legend.onAdd = function (map) {
@@ -314,7 +317,7 @@ legend.onAdd = function (map) {
     var div = L.DomUtil.create('div', 'info legend'),
         grades = [1, 2, 3],
         labels = ['Level 1:Low', 'Level 2:Medium', 'Level 3:High'];
-        div.innerHTML='<h4> Hazard Flooding Intensity</h4>';
+        div.innerHTML='<h4><b>Hazard Flooding Intensity</b></h4>';
    
     for (var i = 0; i < labels.length; i++) {
         div.innerHTML +=
