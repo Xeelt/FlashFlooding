@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
     <style>
         #map{
-            height: 94vh;
+            height: 90vh;
             width: 100%;
         }
 
@@ -27,7 +27,7 @@
     border-radius: 10px;
 }
 .info h4 {
-    margin: 0 0 5px;
+    margin: 0 0 15px;
     color: #000000;
 }
 
@@ -48,7 +48,7 @@
             top: 50%;
             transform: translateY(-50%);
             left: 15px;
-            max-height: 50px; /* Tamaño ajustable */
+            max-height: 50px; 
         }
 
 h1 {
@@ -79,19 +79,33 @@ h1 {
             text-decoration: none;
             margin: 0 10px;
         }
+
+        #locateUser {
+            background-color: black;
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            cursor: pointer;
+           
+        }
     </style>
 </head>
+<script src="map.js"></script>
 <h1>
-    <img src="https://www.studywv.org/wp-content/uploads/2015/10/WVSU.png" alt="Logo de Mi Universidad" id="logo">
+    <img src="https://www.studywv.org/wp-content/uploads/2015/10/WVSU.png" alt="West Virginia State University" id="logo">
     <div class="title">Flash Flooding Hazard Zones for Charleston, West Virginia</div>
     <div class="buttons">
         <a href="data\FAQ6.html">-Documentation-</a>
         <a href="https://github.com/Xeelt">-Source-</a>
         <a href="https://www.theweathernetwork.com/en/maps/radar">-Actual Weather-</a>
+        <button id="locateUser"><strong>Locate Me</strong></button></div>
+
+       
     </div>
 </h1>
 
     <div id="map"></div>
+    
 </body>
 </html>
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
@@ -113,7 +127,7 @@ h1 {
 <script>
 
 
-    var map = L.map('map').setView([38.4105,-81.5767], 11.5);
+    var map = L.map('map').setView([38.35403,-81.63017], 14);
 var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 });
@@ -153,10 +167,11 @@ ext: 'jpg'
 Stamen_Watercolor.addTo(map);
 
 var baseLayers = {
-    "Satellite":googleSat,
+    "OpenStreetMap": osm,
     "Google Map":googleStreets,
     "Water Color":Stamen_Watercolor,
     "OpenStreetMap": osm,
+    "Satellite":googleSat,
 };
 
 L.control.layers(baseLayers).addTo(map);
@@ -292,6 +307,22 @@ geojson = L.geoJson(A38P,  {
 }).addTo(map);
 
 
+var locateButton = document.getElementById('locateUser');
+
+        locateButton.addEventListener('click', function() {
+            if ('geolocation' in navigator) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    var userLocation = [position.coords.latitude, position.coords.longitude];
+                    var userMarker = L.marker(userLocation).addTo(map);
+                    map.setView(userLocation, 14);
+                }, function(error) {
+                    console.error('Error getting user location:', error.message);
+                });
+            } else {
+                console.error('Geolocation is not available in this browser.');
+            }
+        });
+
 
 var info = L.control();
 
@@ -303,9 +334,10 @@ info.onAdd = function (map) {
 
 
 info.update = function (props) {
-    this._div.innerHTML = '<h4> Kanawha River Flooding Intensity (Levels: 1, 2, 3)</h4>' +  (props ?
-        '<b>  '+  'Level  '  + props.density 
-        : 'Hover over a zone');
+    this._div.innerHTML = 
+    '<h4> Kanawha River Flooding Intensity (Levels: 1, 2, 3)</h4>' +  (props ?
+    '<b>  '+  'Level  '  + props.density 
+    : 'Hover over a zone');
 };
 
 info.addTo(map);
