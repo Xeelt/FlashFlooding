@@ -1,3 +1,8 @@
+<!--Responsible 
+    Author
+        Yhocsan 
+            Uzzi 
+                G.G.-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -74,9 +79,9 @@ h1 {
 <h1>
     <div class="title">Flash Flooding Hazard Zones for Charleston, West Virginia</div>
     <div class="buttons">
-        <a href="data\FAQ6.html">Documentation</a>
-        <a href="https://github.com/Xeelt">Sources</a>
-        <a href="https://www.theweathernetwork.com/en/maps/radar">Actual Weather</a>
+        <a href="data\FAQ6.html">-Documentation-</a>
+        <a href="https://github.com/Xeelt">-Source-</a>
+        <a href="https://www.theweathernetwork.com/en/maps/radar">-Actual Weather-</a>
     </div>
 </h1>
 
@@ -101,9 +106,6 @@ h1 {
 
 <script>
 
-/*===================================================
-                      OSM  LAYER               
-===================================================*/
 
     var map = L.map('map').setView([38.43804,-81.88454], 12);
 var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -111,9 +113,7 @@ var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 });
 osm.addTo(map);
 
-/*===================================================
-                     TILE LAYER               
-===================================================*/
+
 
 var CartoDB_DarkMatter = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
@@ -122,7 +122,7 @@ subdomains: 'abcd',
 });
 CartoDB_DarkMatter.addTo(map);
 
-// Google Map Layer
+
 
 googleStreets = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{
     maxZoom: 20,
@@ -130,7 +130,7 @@ googleStreets = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',
  });
  googleStreets.addTo(map);
 
- // Satelite Layer
+ 
 googleSat = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',{
    maxZoom: 20,
    subdomains:['mt0','mt1','mt2','mt3']
@@ -145,9 +145,7 @@ maxZoom: 16,
 ext: 'jpg'
 });
 Stamen_Watercolor.addTo(map);
-/*===================================================
-                      LAYER CONTROL               
-===================================================*/
+
 var baseLayers = {
     "Satellite":googleSat,
     "Google Map":googleStreets,
@@ -157,15 +155,8 @@ var baseLayers = {
 
 L.control.layers(baseLayers).addTo(map);
 
-/*===================================================
-                      SEARCH BUTTON               
-===================================================*/
 
 L.Control.geocoder().addTo(map);
-
-/*===================================================
-                      Choropleth Map               
-===================================================*/
 
 L.geoJSON(A1P).addTo(map);
 L.geoJSON(A2P).addTo(map);
@@ -225,7 +216,7 @@ function resetHighlight(e) {
 }
 
 var geojson;
-// ... our listeners
+
 geojson = L.geoJson(A1P, A2P, A7P, A14P, A18P, A20P, A26P, A30P, A32P, A35P, A36P, A38P);
 
 
@@ -299,12 +290,12 @@ geojson = L.geoJson(A38P,  {
 var info = L.control();
 
 info.onAdd = function (map) {
-    this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+    this._div = L.DomUtil.create('div', 'info'); 
     this.update();
     return this._div;
 };
 
-// method that we will use to update the control based on feature properties passed
+
 info.update = function (props) {
     this._div.innerHTML = '<h4> Kanawha River Flooding Intensity (Levels: 1, 2, 3)</h4>' +  (props ?
         '<b>  '+  'Level  '  + props.density 
@@ -324,7 +315,7 @@ legend.onAdd = function (map) {
         grades = [1, 2, 3],
         labels = ['Level 1:Low', 'Level 2:Medium', 'Level 3:High'];
         div.innerHTML='<h4> Hazard Flooding Intensity</h4>';
-    // loop through our density intervals and generate a label with a colored square for each interval
+   
     for (var i = 0; i < labels.length; i++) {
         div.innerHTML +=
             '<i style="background:' + getColor(grades[i] ) + '"></i> ' +
